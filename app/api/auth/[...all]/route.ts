@@ -1,8 +1,7 @@
 import arcject from "@/lib/arcject";
 import { auth } from "@/lib/auth";
-import { env } from "@/lib/env";
 import ip from "@arcjet/ip";
-import arcjet, {
+import {
   type ArcjetDecision,
   type BotOptions,
   type EmailOptions,
