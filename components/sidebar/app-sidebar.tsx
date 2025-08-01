@@ -47,12 +47,12 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: ADMIN_ROUTES.ADMIN_DASHBOARD(),
+      url: ADMIN_ROUTES.DASHBOARD(),
       icon: IconDashboard,
     },
     {
       title: "Courses",
-      url: ADMIN_ROUTES.ADMIN_COURSES(),
+      url: ADMIN_ROUTES.COURSES(),
       icon: IconListDetails,
     },
     {
