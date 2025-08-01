@@ -4,7 +4,7 @@ import { prisma } from "./db";
 import { env } from "./env";
 import { emailOTP } from "better-auth/plugins";
 import { resend } from "./resend";
-import { EmailTemplate } from "@/components/email-template";
+import { EmailTemplate } from "@/components/sidebar/email-template";
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {

@@ -7,11 +7,14 @@ import { ThemeToggle } from "@/components/ui/themeToggle";
 import { authClient } from "@/lib/auth-client";
 import { buttonVariants } from "@/components/ui/button";
 import { UserDropdown } from "./UserDropdown";
+import { env } from "@/lib/env";
+
+const WEB_NAME = env.NEXT_PUBLIC_WEB_NAME;
 
 const navigationItems = [
   { name: "Home", href: "/" },
   { name: "Courses", href: "/courses" },
-  { name: "Dashboard", href: "/dashbaord" },
+  { name: "Dashboard", href: "/dashboard" },
 ];
 
 export function Navbar() {
@@ -24,7 +27,7 @@ export function Navbar() {
       <div className="container flex min-h-16 items-center mx-auto">
         <Link href="/" className="flex items-center space-x-2 mr-4">
           <Image src={Logo} alt="logo" className="size-9" />
-          <span className="font-bold">LMS Courses.</span>
+          <span className="font-bold">{WEB_NAME}</span>
         </Link>
 
         <nav className="hidden md:flex md:flex-1 md:items-center md:justify-between">
