@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import Image from "next/image";
-import Logo from "@/public/logo.png";
-import { ThemeToggle } from "@/components/ui/themeToggle";
-import { authClient } from "@/lib/auth-client";
-import { buttonVariants } from "@/components/ui/button";
-import { UserDropdown } from "./UserDropdown";
-import { env } from "@/lib/env";
+import Link from 'next/link';
+import Image from 'next/image';
+import Logo from '@/public/logo.png';
+import { ThemeToggle } from '@/components/ui/themeToggle';
+import { authClient } from '@/lib/auth-client';
+import { buttonVariants } from '@/components/ui/button';
+import { UserDropdown } from './UserDropdown';
+import { env } from '@/lib/env';
 
 const WEB_NAME = env.NEXT_PUBLIC_WEB_NAME;
 
 const navigationItems = [
-  { name: "Home", href: "/" },
-  { name: "Courses", href: "/courses" },
-  { name: "Dashboard", href: "/dashboard" },
+  { name: 'Home', href: '/' },
+  { name: 'Courses', href: '/courses' },
+  { name: 'Dashboard', href: '/dashboard' },
 ];
 
 export function Navbar() {
@@ -51,15 +51,12 @@ export function Navbar() {
                 <UserDropdown
                   email={session.user.email}
                   name={session.user.name}
-                  image={session.user.image || ""}
+                  image={session.user.image || ''}
                 />
               </>
             ) : (
               <>
-                <Link
-                  href="/login"
-                  className={buttonVariants({ variant: "secondary" })}
-                >
+                <Link href="/login" className={buttonVariants({ variant: 'secondary' })}>
                   Login
                 </Link>
                 <Link href="/login" className={buttonVariants()}>

@@ -1,17 +1,17 @@
-import { $path } from "next-typesafe-url";
+import { $path } from 'next-typesafe-url';
 
 export const ROUTES = {
   // Public routes
-  HOME: () => $path({ route: "/" }),
+  HOME: () => $path({ route: '/' }),
 
   // User routes
-  LOGIN: () => $path({ route: "/login" }),
-  COURSES: () => $path({ route: "/courses" }),
+  LOGIN: () => $path({ route: '/login' }),
+  COURSES: () => $path({ route: '/courses' }),
 
   // Admin routes
-  ADMIN_DASHBOARD: () => $path({ route: "/admin" }),
-  ADMIN_COURSES: () => $path({ route: "/admin/courses" }),
-  CREATE_COURSE: () => $path({ route: "/admin/courses/create" }),
+  ADMIN_DASHBOARD: () => $path({ route: '/admin' }),
+  ADMIN_COURSES: () => $path({ route: '/admin/courses' }),
+  CREATE_COURSE: () => $path({ route: '/admin/courses/create' }),
 } as const;
 
 export const ADMIN_ROUTES = {

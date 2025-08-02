@@ -1,6 +1,6 @@
-import * as React from "react";
-import { Loader as LucideLoader, type LucideIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
+import * as React from 'react';
+import { Loader as LucideLoader, type LucideIcon } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 export type LoaderProps = {
   size?: number | string;
@@ -13,7 +13,7 @@ export type LoaderProps = {
 
 export function AppLoader({
   size = 24,
-  color = "currentColor",
+  color = 'currentColor',
   className,
   icon: Icon = LucideLoader,
   label,
@@ -24,13 +24,13 @@ export function AppLoader({
     <span
       role="status"
       aria-live="polite"
-      className={cn("inline-flex items-center gap-2", className)}
+      className={cn('inline-flex items-center gap-2', className)}
       {...props}
     >
       <Icon
         size={size}
         color={color}
-        className={cn(spinning && "animate-spin")}
+        className={cn(spinning && 'animate-spin')}
         aria-hidden="true"
       />
       {label && <span className="text-sm text-muted-foreground">{label}</span>}

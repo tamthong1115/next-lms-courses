@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import { Badge } from "@/components/ui/badge";
-import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useRouter } from 'next/navigation';
+import { Badge } from '@/components/ui/badge';
+import Link from 'next/link';
+import { buttonVariants } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface featureProps {
   title: string;
@@ -14,28 +14,28 @@ interface featureProps {
 
 const features: featureProps[] = [
   {
-    title: "Comprehensive Courses",
+    title: 'Comprehensive Courses',
     description:
-      "Explore a wide range of courses designed to enhance your skills and knowledge in various fields.",
-    icon: "📚",
+      'Explore a wide range of courses designed to enhance your skills and knowledge in various fields.',
+    icon: '📚',
   },
   {
-    title: "Interactive Learning",
+    title: 'Interactive Learning',
     description:
-      "Engage with interactive content, quizzes, and assignments that make learning enjoyable and effective.",
-    icon: "🖥️",
+      'Engage with interactive content, quizzes, and assignments that make learning enjoyable and effective.',
+    icon: '🖥️',
   },
   {
-    title: "Progress Tracking",
+    title: 'Progress Tracking',
     description:
-      "Monitor your learning journey with detailed progress tracking and performance analytics.",
-    icon: "📈",
+      'Monitor your learning journey with detailed progress tracking and performance analytics.',
+    icon: '📈',
   },
   {
-    title: "Community Support",
+    title: 'Community Support',
     description:
-      "Join a vibrant community of learners and instructors for discussions, feedback, and support.",
-    icon: "🤝",
+      'Join a vibrant community of learners and instructors for discussions, feedback, and support.',
+    icon: '🤝',
   },
 ];
 
@@ -49,13 +49,13 @@ export default function Home() {
             Elevate your Learning Experience
           </h1>
           <p className="max-w-[700px] text-muted-foreground text-xl">
-            Discover a new way to learn with our modern, interactive learning
-            management system. Access high-quality courses anytime, anywhere.
+            Discover a new way to learn with our modern, interactive learning management system.
+            Access high-quality courses anytime, anywhere.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 mt-8">
             <Link
               className={buttonVariants({
-                size: "lg",
+                size: 'lg',
               })}
               href="/courses"
             >
@@ -64,8 +64,8 @@ export default function Home() {
 
             <Link
               className={buttonVariants({
-                size: "lg",
-                variant: "outline",
+                size: 'lg',
+                variant: 'outline',
               })}
               href="/login"
             >

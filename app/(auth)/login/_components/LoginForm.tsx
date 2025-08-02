@@ -1,39 +1,33 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { authClient } from "@/lib/auth-client";
-import { SiGithub } from "@icons-pack/react-simple-icons";
-import { Loader, Send } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
-import { toast } from "sonner";
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { authClient } from '@/lib/auth-client';
+import { SiGithub } from '@icons-pack/react-simple-icons';
+import { Loader, Send } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useState, useTransition } from 'react';
+import { toast } from 'sonner';
 
 export function LoginForm() {
   const router = useRouter();
   const [githubPending, startGithubTransition] = useTransition();
   const [emailPending, startEmailTransition] = useTransition();
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
 
   async function signInWithGithub() {
     startGithubTransition(async () => {
       await authClient.signIn.social({
-        provider: "github",
-        callbackURL: "/",
+        provider: 'github',
+        callbackURL: '/',
         fetchOptions: {
           onSuccess: () => {
-            toast.success("Singed in with Github, you will be redirected...");
+            toast.success('Singed in with Github, you will be redirected...');
           },
           onError: (error) => {
-            toast.error("Internal Server Error");
+            toast.error('Internal Server Error');
           },
         },
       });
@@ -44,15 +38,15 @@ export function LoginForm() {
     startEmailTransition(async () => {
       await authClient.emailOtp.sendVerificationOtp({
         email: email,
-        type: "sign-in",
+        type: 'sign-in',
         fetchOptions: {
           onSuccess: () => {
-            toast.success("Email sent");
+            toast.success('Email sent');
             router.push(`/verify-request?email=${email}`);
           },
           onError: (e) => {
             console.log(e);
-            toast.error("Error sending email");
+            toast.error('Error sending email');
           },
         },
       });
@@ -70,7 +64,7 @@ export function LoginForm() {
           disabled={githubPending}
           onClick={signInWithGithub}
           className="w-full cursor-pointer"
-          variant={"outline"}
+          variant={'outline'}
         >
           {githubPending ? (
             <>
@@ -90,9 +84,7 @@ export function LoginForm() {
         after:inset-0 after:top-1/2 after:z-0 after:flex 
         after:items-center after:border-t after:border-border"
         >
-          <span className="relative z-10 bg-card px-2 text-muted-foreground">
-            Or continue with
-          </span>
+          <span className="relative z-10 bg-card px-2 text-muted-foreground">Or continue with</span>
         </div>
 
         <div className="grid gap-3">
@@ -106,11 +98,7 @@ export function LoginForm() {
               required
             />
           </div>
-          <Button
-            onClick={signInWithEmail}
-            disabled={emailPending}
-            className="cursor-pointer"
-          >
+          <Button onClick={signInWithEmail} disabled={emailPending} className="cursor-pointer">
             {emailPending ? (
               <>
                 <Loader className="size-4 animate-sping" />
