@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { IconCirclePlusFilled, IconMail, type Icon } from "@tabler/icons-react";
+import { IconCirclePlusFilled, IconMail, type Icon } from '@tabler/icons-react';
 
 import {
   SidebarGroup,
@@ -8,9 +8,9 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar";
-import Link from "next/link";
-import { ADMIN_ROUTES } from "@/constants/routes";
+} from '@/components/ui/sidebar';
+import Link from 'next/link';
+import { ADMIN_ROUTES } from '@/constants/routes';
 
 export function NavMain({
   items,
