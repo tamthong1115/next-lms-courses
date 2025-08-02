@@ -13,6 +13,7 @@ import {Input} from "@/components/ui/input";
 import slugify from "slugify";
 import {Textarea} from "@/components/ui/textarea";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
+import {TipTapEditor} from "@/components/rich-text-editor/TipTapEditor";
 
 export default function CourseCreationPage() {
 
@@ -124,8 +125,9 @@ export default function CourseCreationPage() {
                                     <FormItem className="w-full">
                                         <FormLabel>Description</FormLabel>
                                         <FormControl>
-                                            <Textarea placeholder="Description"
-                                                      className="min-h-[120px]" {...field}/>
+                                            {/*<Textarea placeholder="Description"*/}
+                                            {/*          className="min-h-[120px]" {...field}/>*/}
+                                            <TipTapEditor field={field}/>
                                         </FormControl>
                                         {/*Render custom error message in zod schema*/}
                                         <FormMessage/>

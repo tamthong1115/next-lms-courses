@@ -25,25 +25,7 @@ import {
 import Link from "next/link";
 import {HomeIcon, Tv2} from "lucide-react";
 import {useSignOut} from "@/hooks/use-signout";
-
-
-function getUserInitial(user: { name?: string | null; email: string }): string {
-    if (user.name && user.name.trim().length > 0) {
-        return user.name.trim()[0].toUpperCase();
-    }
-    return user.email.trim()[0].toUpperCase();
-}
-
-function getUserName(user: { name?: string | null; email: string }): string {
-    if (user.name && user.name.trim().length > 0) {
-        return user.name.trim();
-    }
-    const emailParts = user.email.split("@");
-    if (emailParts.length > 0) {
-        return emailParts[0];
-    }
-    return "User";
-}
+import {getUserInitial, getUserName} from "@/utils/user";
 
 export function NavUser({
                             user,
