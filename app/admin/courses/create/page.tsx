@@ -33,6 +33,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { TipTapEditor } from '@/components/rich-text-editor/TipTapEditor';
+import { Uploader } from '@/components/file-uploader/Uploader';
 
 export default function CourseCreationPage() {
   const form = useForm<CourseSchemaType>({
@@ -148,8 +149,6 @@ export default function CourseCreationPage() {
                   <FormItem className="w-full">
                     <FormLabel>Description</FormLabel>
                     <FormControl>
-                      {/*<Textarea placeholder="Description"*/}
-                      {/*          className="min-h-[120px]" {...field}/>*/}
                       <TipTapEditor field={field} />
                     </FormControl>
                     {/*Render custom error message in zod schema*/}
@@ -165,7 +164,8 @@ export default function CourseCreationPage() {
                   <FormItem className="w-full">
                     <FormLabel>Thumbnail Image</FormLabel>
                     <FormControl>
-                      <Input placeholder="thumbnail url" {...field} />
+                      <Uploader />
+                      {/*<Input placeholder="thumbnail url" {...field} />*/}
                     </FormControl>
                     {/*Render custom error message in zod schema*/}
                     <FormMessage />

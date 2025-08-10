@@ -10,6 +10,7 @@ import { Loader, Send } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState, useTransition } from 'react';
 import { toast } from 'sonner';
+import { AppLoader } from '@/components/ui/loader';
 
 export function LoginForm() {
   const router = useRouter();
@@ -28,6 +29,7 @@ export function LoginForm() {
           },
           onError: (error) => {
             toast.error('Internal Server Error');
+            console.error('Error signing in with Github:', error);
           },
         },
       });
@@ -68,8 +70,7 @@ export function LoginForm() {
         >
           {githubPending ? (
             <>
-              <Loader className="size-4 animate-spin" />
-              <span>Loading...</span>
+              <AppLoader />
             </>
           ) : (
             <>

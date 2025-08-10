@@ -5,7 +5,7 @@ export function getUserInitial(user: { name?: string | null; email: string }): s
   return user.email.trim()[0].toUpperCase();
 }
 
-export function getUserName(user: { name?: string | null; email: string }): string {
+export function getUserNameOrEmailPrefix(user: { name?: string | null; email: string }): string {
   if (user.name && user.name.trim().length > 0) {
     return user.name.trim();
   }

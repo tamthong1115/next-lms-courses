@@ -14,6 +14,15 @@ export const ROUTES = {
   CREATE_COURSE: () => $path({ route: '/admin/courses/create' }),
 } as const;
 
+export const PUBLIC_ROUTES = {
+  HOME: ROUTES.HOME,
+} as const;
+
+export const USER_ROUTES = {
+  LOGIN: ROUTES.LOGIN,
+  COURSES: ROUTES.COURSES,
+} as const;
+
 export const ADMIN_ROUTES = {
   DASHBOARD: ROUTES.ADMIN_DASHBOARD,
   COURSES: ROUTES.ADMIN_COURSES,
