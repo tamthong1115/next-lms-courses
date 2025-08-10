@@ -13,7 +13,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
 import { useSignOut } from '@/hooks/use-signout';
-import { getUserInitial } from '@/utils/user';
+import { getUserInitial, getUserNameOrEmailPrefix } from '@/utils/user';
+import { ADMIN_ROUTES, PUBLIC_ROUTES, USER_ROUTES } from '@/constants/routes';
 
 interface iAppProps {
   name?: string | null | undefined;
@@ -35,27 +36,29 @@ export function UserDropdown({ email, name, image }: iAppProps) {
           <ChevronDownIcon size={16} className="opacity-60" aria-hidden="true" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="max-w-64">
+      <DropdownMenuContent align="end" className="min-w-48">
         <DropdownMenuLabel className="flex min-w-0 flex-col">
-          <span className="text-foreground truncate text-sm font-medium">{name}</span>
+          <span className="text-foreground truncate text-sm font-medium">
+            {getUserNameOrEmailPrefix({ name, email })}
+          </span>
           <span className="text-muted-foreground truncate text-xs font-normal">{email}</span>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
-            <Link href="/">
+            <Link href={PUBLIC_ROUTES.HOME()}>
               <HomeIcon size={16} className="opacity-60" aria-hidden="true" />
               <span>Home</span>
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <Link href="/courses">
+            <Link href={USER_ROUTES.COURSES()}>
               <BookOpen size={16} className="opacity-60" aria-hidden="true" />
               <span>Courses</span>
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <Link href="/dashboard">
+            <Link href={ADMIN_ROUTES.DASHBOARD()}>
               <LayoutDashboard size={16} className="opacity-60" aria-hidden="true" />
               <span>Dashboard</span>
             </Link>

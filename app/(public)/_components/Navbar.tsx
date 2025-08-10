@@ -8,6 +8,7 @@ import { authClient } from '@/lib/auth-client';
 import { buttonVariants } from '@/components/ui/button';
 import { UserDropdown } from './UserDropdown';
 import { env } from '@/lib/env';
+import { AppLoader } from '@/components/ui/loader';
 
 const WEB_NAME = env.NEXT_PUBLIC_WEB_NAME;
 
@@ -46,7 +47,9 @@ export function Navbar() {
           <div className="flex items-center space-x-2">
             <ThemeToggle></ThemeToggle>
 
-            {isPending ? null : session ? (
+            {isPending ? (
+              <AppLoader />
+            ) : session ? (
               <>
                 <UserDropdown
                   email={session.user.email}

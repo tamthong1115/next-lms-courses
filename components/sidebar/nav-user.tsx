@@ -21,7 +21,7 @@ import {
 import Link from 'next/link';
 import { HomeIcon, Tv2 } from 'lucide-react';
 import { useSignOut } from '@/hooks/use-signout';
-import { getUserInitial, getUserName } from '@/utils/user';
+import { getUserInitial, getUserNameOrEmailPrefix } from '@/utils/user';
 
 export function NavUser({
   user,
@@ -73,7 +73,7 @@ export function NavUser({
                   <AvatarFallback className="rounded-lg">{getUserInitial(user)}</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{getUserName(user)}</span>
+                  <span className="truncate font-medium">{getUserNameOrEmailPrefix(user)}</span>
                   <span className="text-muted-foreground truncate text-xs">{user.email}</span>
                 </div>
               </div>
