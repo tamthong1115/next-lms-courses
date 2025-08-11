@@ -69,6 +69,43 @@ export function Uploader() {
 
       const { presignedUrl, key } = await presignedUrlResponse.json();
 
+      await new Promise<void>((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+
+        xhr.upload.onprogress = (e: ProgressEvent) => {
+          if (e.lengthComputable) {
+            const percentageCompleted = Math.round((e.loaded / e.total) * 100);
+            setFileState((prev) => ({
+              ...prev,
+              progress: percentageCompleted,
+            }));
+          }
+        };
+
+        xhr.onload = () => {
+          if (xhr.status === 200 || xhr.status === 204) {
+            setFileState((prev) => ({
+              ...prev,
+              progress: 100,
+              uploading: false,
+              key: key,
+            }));
+
+            toast.success('File uploaded successfully');
+            resolve();
+          } else {
+            reject(new Error('Upload failed'));
+          }
+
+          xhr.onerror = () => {
+            reject(new Error('Upload error'));
+          };
+
+          xhr.open('PUT', presignedUrl);
+          xhr.setRequestHeader('Content-Type', file.type);
+          xhr.send(file);
+        };
+      });
     } catch (error) {
       console.error('Error uploading file:', error);
       toast.error('Error uploading file');
