@@ -4,9 +4,8 @@
   "arrowParens": "always",
   "tabWidth": 2,
   "useTabs": false,
-  "printWidth": 100,
+  "printWidth": 80,
   "bracketSpacing": true,
   "jsxSingleQuote": false,
-  "jsxBracketSameLine": false,
   "semi": true
 }
