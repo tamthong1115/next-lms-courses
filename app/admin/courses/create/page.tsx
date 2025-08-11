@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { ADMIN_ROUTES } from '@/constants/routes';
+import { ADMIN_ROUTES } from '@/constants/client-routes';
 import { ArrowLeft, PlusIcon, SparkleIcon } from 'lucide-react';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';

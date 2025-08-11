@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ADMIN_ROUTES } from '@/constants/routes';
+import { ADMIN_ROUTES } from '@/constants/client-routes';
 import { buttonVariants } from '@/components/ui/button';
 
 export default function CoursesPage() {

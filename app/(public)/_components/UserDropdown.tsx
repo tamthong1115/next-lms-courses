@@ -14,7 +14,7 @@ import {
 import Link from 'next/link';
 import { useSignOut } from '@/hooks/use-signout';
 import { getUserInitial, getUserNameOrEmailPrefix } from '@/utils/user';
-import { ADMIN_ROUTES, PUBLIC_ROUTES, USER_ROUTES } from '@/constants/routes';
+import { ADMIN_ROUTES, PUBLIC_ROUTES, USER_ROUTES } from '@/constants/client-routes';
 
 interface iAppProps {
   name?: string | null | undefined;

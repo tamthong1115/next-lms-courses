@@ -36,7 +36,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Logo from '@/public/logo.png';
 import { env } from '@/lib/env';
-import { ADMIN_ROUTES } from '@/constants/routes';
+import { ADMIN_ROUTES } from '@/constants/client-routes';
 import { authClient } from '@/lib/auth-client';
 import { AppLoader } from '@/components/ui/loader';
 

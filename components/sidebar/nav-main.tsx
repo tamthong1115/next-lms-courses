@@ -10,7 +10,7 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import Link from 'next/link';
-import { ADMIN_ROUTES } from '@/constants/routes';
+import { ADMIN_ROUTES } from '@/constants/client-routes';
 
 export function NavMain({
   items,
