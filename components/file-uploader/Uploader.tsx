@@ -33,18 +33,51 @@ export function Uploader() {
     fileType: 'image',
   });
 
-  function uploadFile(file: File) {
+  async function uploadFile(file: File) {
     setFileState((prev) => ({
       ...prev,
       uploading: true,
       progress: 0,
     }));
 
-
     try {
-      
+      // Get presigned URL from the server
+      const presignedUrlResponse = await fetch('/api/s3/upload', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fileName: file.name,
+          contentType: file.type,
+          size: file.size,
+          isImage: file.type.startsWith('image/'),
+        }),
+      });
+
+      if (!presignedUrlResponse.ok) {
+        toast.error('Failed to get presigned URL');
+        setFileState((prev) => ({
+          ...prev,
+          uploading: false,
+          progress: 0,
+          error: true,
+        }));
+
+        return;
+      }
+
+      const { presignedUrl, key } = await presignedUrlResponse.json();
+
     } catch (error) {
-      
+      console.error('Error uploading file:', error);
+      toast.error('Error uploading file');
+      setFileState((prev) => ({
+        ...prev,
+        progress: 0,
+        error: true,
+        uploading: false,
+      }));
     }
   }
 
@@ -61,6 +94,8 @@ export function Uploader() {
         isDeleting: false,
         fileType: file.type.startsWith('image/') ? 'image' : 'video',
       });
+
+      uploadFile(file);
     }
   }, []);
 
