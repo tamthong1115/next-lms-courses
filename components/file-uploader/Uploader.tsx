@@ -12,6 +12,7 @@ import {
 } from '@/components/file-uploader/RenderState';
 import { toast } from 'sonner';
 import { v4 as uuidv4 } from 'uuid';
+import { s3Client } from '../../lib/api/client/s3.client';
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
 const MAX_FILES = 1;
@@ -27,10 +28,16 @@ interface UploaderState {
   objectUrl?: string;
   fileType: 'image' | 'video';
 }
-// TODO: Add types for the file and key in the UploaderState interface
+
+interface iAppProps {
+  value?: string;
+  onChange?: (value: string) => void;
+}
+
+// TODO: Add schema for the file and key in the UploaderState interface
 // TODO: Move the file upload logic to a separate service or utility function for better separation of concerns
 // TODO: Create a custom hook for managing the file upload state and logic
-export function Uploader() {
+export function Uploader({ onChange, value }: iAppProps) {
   const [fileState, setFileState] = useState<UploaderState>({
     id: null,
     file: null,
@@ -39,6 +46,7 @@ export function Uploader() {
     isDeleting: false,
     error: false,
     fileType: 'image',
+    key: value,
   });
 
   async function uploadFile(file: File) {
@@ -50,70 +58,37 @@ export function Uploader() {
 
     try {
       // Get presigned URL from the server
-      const presignedUrlResponse = await fetch('/api/s3/upload', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          fileName: file.name,
-          contentType: file.type,
-          size: file.size,
-          isImage: file.type.startsWith('image/'),
-        }),
+      const { presignedUrl, key } = await s3Client.getPresignedUrl({
+        fileName: file.name,
+        contentType: file.type,
+        size: file.size,
+        isImage: file.type.startsWith('image/'),
       });
 
-      if (!presignedUrlResponse.ok) {
-        toast.error('Failed to get presigned URL');
-        setFileState((prev) => ({
-          ...prev,
-          uploading: false,
-          progress: 0,
-          error: true,
-        }));
+      await s3Client.uploadFileWithProgress(
+        presignedUrl,
+        file,
+        (percentageCompleted: number) => {
+          setFileState((prev) => ({
+            ...prev,
+            progress: percentageCompleted,
+          }));
+        }
+      );
 
-        return;
+      setFileState((prev) => ({
+        ...prev,
+        progress: 100,
+        uploading: false,
+        key: key,
+      }));
+
+      if (onChange) {
+        onChange(key);
       }
 
-      const { presignedUrl, key } = await presignedUrlResponse.json();
+      toast.success('File uploaded successfully');
 
-      await new Promise<void>((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-
-        xhr.upload.onprogress = (e: ProgressEvent) => {
-          if (e.lengthComputable) {
-            const percentageCompleted = Math.round((e.loaded / e.total) * 100);
-            setFileState((prev) => ({
-              ...prev,
-              progress: percentageCompleted,
-            }));
-          }
-        };
-
-        xhr.onload = () => {
-          if (xhr.status === 200 || xhr.status === 204) {
-            setFileState((prev) => ({
-              ...prev,
-              progress: 100,
-              uploading: false,
-              key: key,
-            }));
-
-            toast.success('File uploaded successfully');
-            resolve();
-          } else {
-            reject(new Error('Upload failed'));
-          }
-        };
-
-        xhr.onerror = () => {
-          reject(new Error('Upload error'));
-        };
-
-        xhr.open('PUT', presignedUrl);
-        xhr.setRequestHeader('Content-Type', file.type);
-        xhr.send(file);
-      });
     } catch (error) {
       console.error('Error uploading file:', error);
       toast.error('Error uploading file');
@@ -184,6 +159,10 @@ export function Uploader() {
 
       if (fileState.objectUrl && !fileState.objectUrl.startsWith('http')) {
         URL.revokeObjectURL(fileState.objectUrl);
+      }
+
+      if (onChange) {
+        onChange(''); // Clear the value in the parent component
       }
 
       setFileState(() => ({
