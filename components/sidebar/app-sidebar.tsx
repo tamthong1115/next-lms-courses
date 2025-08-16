@@ -36,7 +36,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Logo from '@/public/logo.png';
 import { env } from '@/lib/env';
-import { ADMIN_ROUTES } from '@/constants/client-routes';
+import { ADMIN_ROUTES } from '@/lib/client-routes';
 import { authClient } from '@/lib/auth-client';
 import { AppLoader } from '@/components/ui/loader';
 
@@ -161,7 +161,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild className="data-[slot=sidebar-menu-button]:!p-1.5">
+            <SidebarMenuButton
+              asChild
+              className="data-[slot=sidebar-menu-button]:!p-1.5"
+            >
               <Link href="/public">
                 <Image src={Logo} alt="Logo" className="size-5" />
                 <span className="text-base font-semibold">{WEB_NAME}</span>

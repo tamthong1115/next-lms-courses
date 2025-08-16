@@ -1,4 +1,10 @@
-import { BookOpen, ChevronDownIcon, HomeIcon, LayoutDashboard, LogOutIcon } from 'lucide-react';
+import {
+  BookOpen,
+  ChevronDownIcon,
+  HomeIcon,
+  LayoutDashboard,
+  LogOutIcon,
+} from 'lucide-react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -14,7 +20,7 @@ import {
 import Link from 'next/link';
 import { useSignOut } from '@/hooks/use-signout';
 import { getUserInitial, getUserNameOrEmailPrefix } from '@/utils/user';
-import { ADMIN_ROUTES, PUBLIC_ROUTES, USER_ROUTES } from '@/constants/client-routes';
+import { ADMIN_ROUTES, PUBLIC_ROUTES, USER_ROUTES } from '@/lib/client-routes';
 
 interface iAppProps {
   name?: string | null | undefined;
@@ -33,7 +39,11 @@ export function UserDropdown({ email, name, image }: iAppProps) {
             <AvatarImage src={image} alt="Profile image" />
             <AvatarFallback>{getUserInitial({ name, email })}</AvatarFallback>
           </Avatar>
-          <ChevronDownIcon size={16} className="opacity-60" aria-hidden="true" />
+          <ChevronDownIcon
+            size={16}
+            className="opacity-60"
+            aria-hidden="true"
+          />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="min-w-48">
@@ -41,7 +51,9 @@ export function UserDropdown({ email, name, image }: iAppProps) {
           <span className="text-foreground truncate text-sm font-medium">
             {getUserNameOrEmailPrefix({ name, email })}
           </span>
-          <span className="text-muted-foreground truncate text-xs font-normal">{email}</span>
+          <span className="text-muted-foreground truncate text-xs font-normal">
+            {email}
+          </span>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
@@ -59,7 +71,11 @@ export function UserDropdown({ email, name, image }: iAppProps) {
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <Link href={ADMIN_ROUTES.DASHBOARD()}>
-              <LayoutDashboard size={16} className="opacity-60" aria-hidden="true" />
+              <LayoutDashboard
+                size={16}
+                className="opacity-60"
+                aria-hidden="true"
+              />
               <span>Dashboard</span>
             </Link>
           </DropdownMenuItem>

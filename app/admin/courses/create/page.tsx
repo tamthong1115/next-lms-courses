@@ -1,10 +1,16 @@
 'use client';
 
 import Link from 'next/link';
-import { ADMIN_ROUTES } from '@/constants/client-routes';
+import { ADMIN_ROUTES } from '@/lib/client-routes';
 import { ArrowLeft, PlusIcon, SparkleIcon } from 'lucide-react';
 import { Button, buttonVariants } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -34,8 +40,16 @@ import {
 } from '@/components/ui/select';
 import { TipTapEditor } from '@/components/rich-text-editor/TipTapEditor';
 import { Uploader } from '@/components/file-uploader/Uploader';
+import { useTransition } from 'react';
+import { tryCatch } from '@/hooks/try-catch';
+import { CreateCourseAction } from '@/app/admin/courses/create/actions';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
+import { AppLoader } from '@/components/ui/loader';
 
 export default function CourseCreationPage() {
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
   const form = useForm<CourseSchemaType>({
     resolver: zodResolver(courseSchema),
     defaultValues: {
@@ -53,7 +67,22 @@ export default function CourseCreationPage() {
   });
 
   function onSubmit(values: CourseSchemaType) {
-    console.log(values);
+    startTransition(async () => {
+      const { error, data } = await tryCatch(CreateCourseAction(values));
+
+      if (error) {
+        toast.error('An unexpected error occurred while creating the course.');
+        return;
+      }
+
+      if (data.status === 'success') {
+        toast.success(data.message);
+        form.reset();
+        router.push(ADMIN_ROUTES.COURSES());
+      } else if (data.status === 'error') {
+        toast.error(data.message);
+      }
+    });
   }
 
   return (
@@ -74,7 +103,9 @@ export default function CourseCreationPage() {
       <Card>
         <CardHeader>
           <CardTitle className="text-xl font-bold">Basic Information</CardTitle>
-          <CardDescription>Provide basic information about the course</CardDescription>
+          <CardDescription>
+            Provide basic information about the course
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -164,7 +195,7 @@ export default function CourseCreationPage() {
                   <FormItem className="w-full">
                     <FormLabel>Thumbnail Image</FormLabel>
                     <FormControl>
-                      <Uploader />
+                      <Uploader onChange={field.onChange} value={field.value} />
                       {/*<Input placeholder="thumbnail url" {...field} />*/}
                     </FormControl>
                     {/*Render custom error message in zod schema*/}
@@ -180,7 +211,10 @@ export default function CourseCreationPage() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Category</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
                         <FormControl>
                           <SelectTrigger className="w-full">
                             <SelectValue placeholder="Select Category" />
@@ -206,7 +240,10 @@ export default function CourseCreationPage() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Level</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
                         <FormControl>
                           <SelectTrigger className="w-full">
                             <SelectValue placeholder="Select Level" />
@@ -235,7 +272,11 @@ export default function CourseCreationPage() {
                     <FormItem className="w-full">
                       <FormLabel>Duration</FormLabel>
                       <FormControl>
-                        <Input placeholder="Duration" type="number" {...field} />
+                        <Input
+                          placeholder="Duration"
+                          type="number"
+                          {...field}
+                        />
                       </FormControl>
                       {/*Render custom error message in zod schema*/}
                       <FormMessage />
@@ -265,7 +306,10 @@ export default function CourseCreationPage() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Status</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
                       <FormControl>
                         <SelectTrigger className="w-full">
                           <SelectValue placeholder="Select Status" />
@@ -285,8 +329,14 @@ export default function CourseCreationPage() {
                 )}
               />
 
-              <Button>
-                Create Course <PlusIcon className="ml-1" size={16} />
+              <Button type="submit" disabled={isPending}>
+                {isPending ? (
+                  <AppLoader label="Creating..." />
+                ) : (
+                  <>
+                    Create Course <PlusIcon className="ml-1" size={16} />
+                  </>
+                )}
               </Button>
             </form>
           </Form>
