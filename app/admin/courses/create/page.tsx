@@ -40,8 +40,16 @@ import {
 } from '@/components/ui/select';
 import { TipTapEditor } from '@/components/rich-text-editor/TipTapEditor';
 import { Uploader } from '@/components/file-uploader/Uploader';
+import { useTransition } from 'react';
+import { tryCatch } from '@/hooks/try-catch';
+import { CreateCourseAction } from '@/app/admin/courses/create/actions';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
+import { AppLoader } from '@/components/ui/loader';
 
 export default function CourseCreationPage() {
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
   const form = useForm<CourseSchemaType>({
     resolver: zodResolver(courseSchema),
     defaultValues: {
@@ -59,7 +67,22 @@ export default function CourseCreationPage() {
   });
 
   function onSubmit(values: CourseSchemaType) {
-    console.log(values);
+    startTransition(async () => {
+      const { error, data } = await tryCatch(CreateCourseAction(values));
+
+      if (error) {
+        toast.error('An unexpected error occurred while creating the course.');
+        return;
+      }
+
+      if (data.status === 'success') {
+        toast.success(data.message);
+        form.reset();
+        router.push(ADMIN_ROUTES.COURSES());
+      } else if (data.status === 'error') {
+        toast.error(data.message);
+      }
+    });
   }
 
   return (
@@ -306,8 +329,14 @@ export default function CourseCreationPage() {
                 )}
               />
 
-              <Button>
-                Create Course <PlusIcon className="ml-1" size={16} />
+              <Button type="submit" disabled={isPending}>
+                {isPending ? (
+                  <AppLoader label="Creating..." />
+                ) : (
+                  <>
+                    Create Course <PlusIcon className="ml-1" size={16} />
+                  </>
+                )}
               </Button>
             </form>
           </Form>

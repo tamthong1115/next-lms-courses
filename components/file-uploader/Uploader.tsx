@@ -12,7 +12,7 @@ import {
 } from '@/components/file-uploader/RenderState';
 import { toast } from 'sonner';
 import { v4 as uuidv4 } from 'uuid';
-import { s3Client } from '../../lib/api/client/s3.client';
+import { s3Client } from '@/lib/api/client/s3.client';
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
 const MAX_FILES = 1;
@@ -88,7 +88,6 @@ export function Uploader({ onChange, value }: iAppProps) {
       }
 
       toast.success('File uploaded successfully');
-
     } catch (error) {
       console.error('Error uploading file:', error);
       toast.error('Error uploading file');
